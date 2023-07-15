@@ -1,0 +1,512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Editors & translators, please, edit firstcss.en.tmpl, not .html -->
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>GESTION DES COMPTES UTILISATEURS ORACLE SOUS DELPHI</title>
+
+ 
+  <link rel="stylesheet" type="text/css" href="https://drive.google.com/uc?export=view&id=1YxvYT405HkSHc2V3qWh6UpPW_xrwiB_a">
+  <link rel="stylesheet" type="text/css" href="https://drive.google.com/uc?export=view&id=1ndSAtstIP8gxOsxiaQ5AE0-qBWGEr59C">
+
+  <style type="text/css">
+  @media screen, print, projection, handheld {
+    .hide {display: none !important}
+  }
+  object {border: thin dotted; width: 35em; height: 30em}
+  div.figure p {
+      text-align: center;
+      font-style: italic;
+      font-size: smaller;
+      text-indent: 0 }
+  div.figure img, div.figure object {max-width: 90%}
+  pre {margin: 1em 0; background: #DDD; padding: 0.5em 1.5em}
+  pre strong {color: red}
+  img.illustration {float: right; margin: 0.5em 0 0.5em 0.5em}
+  img.sign {float: left; max-width: 4.5em; margin: 0 0.5em 0.5em -5em}
+  div.advanced {margin: 1em 0 1em 5em; font-size: smaller}
+  abbr {speak: spell-out}
+  div.advanced {cue: url(ting.mp3) url(tingting.mp3)}
+  #translations a + a:before, #language p:before  {content: "\2022\A0"}
+  #language, #translations {font-style: italic; font-size: small}
+  #language p, #translations li {display: inline}
+  #translations li::before{content: " \2022  "}
+</style>
+  
+
+ </head>
+ <script>
+    function copyPreContent(elementId) {
+      // Récupérer la balise <pre>
+      var preTag = document.getElementById(elementId);
+      
+      // Créer un élément temporaire pour stocker le contenu du <pre>
+      var tempElement = document.createElement("textarea");
+      tempElement.value = preTag.textContent;
+      
+      // Ajouter l'élément temporaire au corps du document
+      document.body.appendChild(tempElement);
+      
+      // Sélectionner tout le texte dans l'élément temporaire
+      tempElement.select();
+      
+      // Copier le texte dans le presse-papiers
+      document.execCommand("copy");
+      
+      // Supprimer l'élément temporaire
+      document.body.removeChild(tempElement);
+      
+      // Afficher un message de confirmation
+      alert("Contenu copié !");
+    }
+  </script>
+   <script>
+function copierDansPressePapier() {
+    // Sélection du contenu de la zone de texte
+    var memo = document.getElementById('memo');
+    memo.select();
+    memo.setSelectionRange(0, 99999); // Pour les navigateurs mobiles
+
+    // Copie du contenu dans le presse-papier
+    document.execCommand('copy');
+
+    // Affichage d'un message de confirmation
+    alert("Le code a été copié dans le presse-papier !");
+}
+</script>
+ <body cz-shortcut-listen="true">
+ 
+  <h1>Tutoriel <br>
+   Gestion des comptes Oracle avec Delphi</h1>
+
+  <div class="map">
+   <h2 class="hide">Contenu</h2>
+
+   <ul>
+    <li id="p1"><a href="#creercompte">1. Créer un compte</a>
+
+    </li><li id="p2"><a href="#activercompte">2. Activer un compte</a>
+
+    </li><li id="p3"><a href="#desactivercompte">3. Désactiver un compte</a>
+
+    </li><li id="p4"><a href="#supprimercompte">4. Supprimer un compte</a>
+
+    </li><li id="p10"><a href="#changerpwd">5. Changer mot de passe</a>
+
+    </li><li id="p6"><a href="#affichercomptes">6. Afficher les comptes</a>
+
+    </li><li id="p9"><a href="#creerrole">7. Créer un rôle</a>
+
+    </li><li id="p9"><a href="#supprimerrole">8. Supprimer un rôle</a>
+
+    </li><li id="p5"><a href="#savoir">En savoir plus</a>
+   </li></ul>
+  </div>
+
+  <p>Ce court tutoriel est destiné à&nbsp; ceux qui commencent à&nbsp; créer d'une forme Delphi qui permet d'administrer et gérer les comptes oracle.
+
+  </p>La gestion des comptes Oracle avec le langage Delphi offre diverses fonctionnalités pour administrer les comptes d'utilisateurs dans une base de données Oracle. Voici une introduction aux principales fonctionnalités de gestion des comptes :
+
+<ol>1. Création des comptes : Avec Delphi, vous pouvez facilement créer de nouveaux comptes utilisateur Oracle en utilisant des requêtes SQL pour insérer les informations d'utilisateur dans la table appropriée. Vous pouvez spécifier des détails tels que le nom d'utilisateur, le mot de passe et les autorisations associées au compte.</ol>
+
+  <ol>2. Activation des comptes : Lors de la création d'un compte utilisateur, il est souvent nécessaire de l'activer pour permettre à l'utilisateur de se connecter. Vous pouvez utiliser Delphi pour exécuter une requête SQL qui mettra à jour l'état du compte pour le rendre actif. Cela permettra à l'utilisateur de se connecter à la base de données.</ol>
+
+<ol>3. Verrouillage des comptes : Dans certains cas, vous voudrez peut-être verrouiller un compte utilisateur pour des raisons de sécurité ou de gestion. Cela empêchera l'utilisateur de se connecter à la base de données. Avec Delphi, vous pouvez envoyer une requête SQL pour modifier l'état du compte et le verrouiller. Vous pouvez également spécifier des conditions, telles que le nombre de tentatives de connexion infructueuses, pour déclencher automatiquement le verrouillage du compte.</ol>
+
+<ol>4. Déverrouillage des comptes : Si un compte utilisateur est verrouillé, vous pouvez utiliser Delphi pour envoyer une requête SQL qui le déverrouillera. Cela permettra à l'utilisateur de se connecter à nouveau à la base de données.</ol>
+
+<ol>5. Modification des informations du compte : Delphi offre des fonctionnalités pour modifier les informations d'un compte utilisateur existant. Vous pouvez utiliser des requêtes SQL pour mettre à jour des éléments tels que le nom d'utilisateur, le mot de passe, les autorisations ou d'autres détails associés au compte.</ol>
+
+<ol>6. Suppression des comptes : Si vous souhaitez supprimer un compte utilisateur, Delphi vous permet d'exécuter des requêtes SQL pour supprimer les informations du compte de la base de données. Cela peut être utile lorsque vous devez désactiver ou supprimer des comptes utilisateur obsolètes ou inactifs.</ol>
+
+<p>En utilisant les fonctionnalités de gestion des comptes Oracle avec Delphi, vous pouvez contrôler et administrer efficacement les comptes d'utilisateurs dans votre application. Ces fonctionnalités vous offrent la flexibilité nécessaire pour créer, activer, verrouiller, déverrouiller, modifier et supprimer des comptes utilisateur en fonction des besoins spécifiques de votre application et des politiques de sécurité de votre base de données Oracle.</ol>
+<div class="figure">
+  
+   <p><img alt="Figure forme Gestion des comptes" src="https://drive.google.com/uc?export=view&id=1yd4lm7rge4CZLbPi8IgbmNn8j2OWqVH8">
+
+
+
+   </p><p>Figure forme 'Gestion des comptes'.
+  </p></div>
+
+    <div class="section" id="creercompte">
+   <h2>1: La création d'un compte</h2>
+
+   <p>Pour créer un compte Oracle en utilisant AdoCommand de Delphi, vous pouvez suivre les étapes suivantes :
+
+<ol>1. Ajouter les composants nécessaires : Assurez-vous d'avoir les composants ADO nécessaires dans la palette d'outils de Delphi. Si vous ne les avez pas, vous pouvez les ajouter en sélectionnant "Component" -> "Install Packages" dans l'IDE de Delphi et en activant les packages correspondants à ADO.</ol>
+
+<ol>2. Créer une connexion à la base de données Oracle : Ajoutez un composant de connexion ADO à votre formulaire Delphi. Cela peut être le composant TADOConnection. Configurez les paramètres de connexion, tels que le nom d'hôte, le port, le nom d'utilisateur et le mot de passe pour la base de données Oracle à laquelle vous souhaitez vous connecter.</ol>
+
+<ol>3. Créer un composant ADOCommand : Ajoutez un composant ADOCommand à votre formulaire Delphi. Cela peut être le composant TADOCommand. Associez ce composant à la connexion ADO créée précédemment en définissant sa propriété Connection sur le composant TADOConnection.</ol>
+
+<ol>4. Écrire la requête SQL de création du compte : Utilisez la propriété CommandText du composant ADOCommand pour définir la requête SQL qui créera le compte Oracle. La requête SQL doit être au format valide Oracle. </ol>
+<p>Cette approche vous permet de créer un compte Oracle en utilisant AdoCommand de Delphi. Veillez à prendre en compte les autorisations nécessaires pour exécuter la commande CREATE USER et assurez-vous de disposer des droits appropriés pour effectuer cette opération dans la base de données Oracle cible.
+
+   </p>
+   <br>
+     <button style='background-color:#DDDDBB' class="flex ml-auto gap-2"  onclick="copyPreContent('myPreTag1')">
+<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" 
+class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
+</path>
+
+<rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button>
+
+
+
+   <pre id="myPreTag1">procedure TForm14.SpeedButton1Click(Sender: TObject);
+begin
+ADOCommand1.CommandText:='';
+if (edit1.Text='') OR (edit2.Text='')  then
+showmessage('Champ vide non autorisé')
+else
+if edit2.Text<>edit3.Text then
+Showmessage('Les mots de passes ne sont pas identiques !... Merci de vérifier')
+else
+Begin
+<strong>ADOCommand1.commandtext:='CREATE USER '+edit1.text+' IDENTIFIED BY '+edit2.text;</strong>
+ADOCommand1.commandtext:=ADOCommand1.commandtext+' DEFAULT TABLESPACE '+ComboBox2.Text;
+if Edit4.Text<>'' then
+ADOCommand1.commandtext:=ADOCommand1.commandtext+' QUOTA '+edit4.Text+'M ON '+ComboBox2.Text
+else
+ADOCommand1.commandtext:=ADOCommand1.commandtext+' QUOTA 10M ON SYSTEM';
+ADOCommand1.commandtext:=ADOCommand1.commandtext+' TEMPORARY TABLESPACE '+ComboBox3.Text;
+if CheckBox2.Checked then
+ADOCommand1.commandtext:=ADOCommand1.commandtext+' ACCOUNT LOCK'
+Else
+ADOCommand1.commandtext:=ADOCommand1.commandtext+' ACCOUNT UNLOCK';
+if CheckBox1.Checked then
+ADOCommand1.commandtext:=ADOCommand1.commandtext+' PASSWORD EXPIRE';
+ADOCommand1.Execute();
+if CheckBox3.Checked then
+IF ComboBox5.Text<>'' then
+ADOCommand1.commandtext:='Grant '+ComboBox5.Text+' TO '+Edit1.Text;
+ADOCommand1.Execute();
+showMessage('L''utilisateur '+edit1.Text+' a été creé');
+SpeedButton5Click(Sender);
+end;
+end;</pre>
+
+
+
+   <p>En fait, vous n'avez pas à le taper: vous pouvez le copier et
+    coller depuis cette page Web dans votre éditeur Delphi.
+
+   </p>
+
+   <div class="figure">
+    <p><img alt="le code source HTML affiché par Subethaedit" src="https://drive.google.com/uc?export=view&id=1avd5RdOvy2UCmC4yi5Yf58u0yIpNs3Vt">
+
+    </p><p>Capture affichant le code source de la création d'un compte Oracle.
+   </p></div>
+
+   
+
+  <div class="section" id="activercompte">
+   <h2>2: Activer un compte</h2>
+
+   <p>Pour activer un compte Oracle en utilisant AdoCommand de Delphi, vous pouvez suivre ces étapes :</p>
+
+<ol>1. Assurez-vous d'avoir déjà créé une connexion à la base de données Oracle en utilisant un composant ADOConnection. Si vous n'avez pas encore créé la connexion, veuillez vous référer à la section précédente sur la création d'un compte Oracle avec AdoCommand de Delphi.</ol>
+
+<ol>2. Ajoutez un composant ADOCommand à votre formulaire Delphi (par exemple, TADOCommand). Associez ce composant à la connexion ADO créée précédemment en définissant sa propriété Connection sur le composant TADOConnection.</ol>
+
+<ol>3. Écrivez la requête SQL pour activer le compte Oracle. La requête peut varier en fonction de la version d'Oracle que vous utilisez. Voici un exemple de requête pour activer un compte Oracle :</ol>
+
+   
+   
+   <button style='background-color:#DDDDBB' class="flex ml-auto gap-2"  onclick="copyPreContent('myPreTag2')">
+<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" 
+class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
+</path>
+
+<rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button>
+
+
+   </p><pre id="myPreTag2">
+procedure TForm14.SpeedButton4Click(Sender: TObject);
+begin
+if edit1.text<>'' then
+begin
+if ADOQListeUsers.Locate('username',edit1.Text,[]) then
+Begin
+if MessageDlg('Voulez-vous vraiment activer l''utilisateur : '+edit1.Text+' ?',mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+begin
+<strong>ADOCommand1.CommandText := 'ALTER USER '+UpperCase(edit1.text)+' ACCOUNT UNLOCK';</strong>
+ADOCommand1.execute();
+Showmessage('L''utilisateur '+Edit1.text+ ' est activé');
+SpeedButton5Click(Sender);
+end;
+end
+else
+showmessage('utilisateur introuvable');
+end
+else
+showmessage('Champ vide , veuillez saisir le nom d''utilisateur')
+end;
+
+   </pre>
+   <ol>- Il est important de noter que l'activation d'un compte Oracle peut nécessiter des privilèges spécifiques. Assurez-vous d'avoir les droits appropriés pour exécuter la commande ALTER USER et activer le compte Oracle dans la base de données.</ol>
+   </ol>
+   <ol>- En suivant ces étapes, vous pourrez activer un compte Oracle en utilisant AdoCommand de Delphi. Assurez-vous d'adapter ces instructions en fonction de votre environnement Oracle spécifique et des besoins de votre application.
+    Veillez à adapter ces instructions en fonction de votre environnement Oracle spécifique et des besoins de votre application.
+   </ol>
+   <div class="figure">
+    <p><img alt="le code source HTML affiché par Subethaedit" src="https://drive.google.com/uc?export=view&id=1Y-fFKo3xwQQftyLTCFRxb2vi-uYMsssz">
+
+    </p><p>Capture affichant le code source de l'activation d'un compte Oracle sous Delphi.
+   </p></div>
+
+
+   <div class="figure">
+    </div>
+
+   <div class="advanced">
+    </div>
+  </div>
+
+  <div class="section" id="desactivercompte">
+   <h2>3: Désactiver un compte</h2>
+
+   <p>Pour désactiver un compte Oracle à l'aide d'AdoCommand de Delphi, vous pouvez suivre ces étapes :</p>
+
+<ol>1. Assurez-vous d'avoir déjà créé une connexion à la base de données Oracle en utilisant un composant ADOConnection. Si vous n'avez pas encore créé la connexion, veuillez vous référer à la section précédente sur la création d'un compte Oracle avec AdoCommand de Delphi.</ol>
+
+<ol>2. Ajoutez un composant ADOCommand à votre formulaire Delphi (par exemple, TADOCommand). Associez ce composant à la connexion ADO créée précédemment en définissant sa propriété Connection sur le composant TADOConnection.</ol>
+
+<ol>3. Écrivez la requête SQL pour désactiver le compte Oracle. La requête peut varier en fonction de la version d'Oracle que vous utilisez. Voici un exemple de requête pour désactiver un compte Oracle :</ol>
+
+   </p>
+   <br><br>
+   <button style='background-color:#DDDDBB' class="flex ml-auto gap-2"  onclick="copyPreContent('myPreTag3')">
+<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" 
+class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
+</path>
+
+<rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button>
+
+   </p><pre id="myPreTag3">procedure TForm14.SpeedButton3Click(Sender: TObject);
+begin
+if edit1.text<>'' then
+begin
+if ADOQListeUsers.Locate('username',edit1.Text,[]) then
+Begin
+if MessageDlg('Voulez-vous vraiment désactiver l''utilisateur : '+edit1.Text+' ?',mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+begin
+<strong>ADOCommand1.CommandText := 'ALTER USER '+UpperCase(edit1.text)+' ACCOUNT LOCK';</strong>
+ADOCommand1.execute();
+Showmessage('L''utilisateur '+Edit1.text+ ' est désactivé');
+SpeedButton5Click(Sender);
+end;
+end
+else
+showmessage('utilisateur introuvable');
+end
+else
+showmessage('Champ vide , veuillez saisir le nom d''utilisateur')
+end;</pre>
+
+   <ol>- Il est important de noter que la désactivation d'un compte Oracle peut nécessiter des privilèges spécifiques. Assurez-vous d'avoir les droits appropriés pour exécuter la commande ALTER USER et désactiver le compte Oracle dans la base de données.
+   </ol>
+   <ol>- En suivant ces étapes, vous pourrez désactiver un compte Oracle à l'aide d'AdoCommand de Delphi. Veillez à adapter ces instructions en fonction de votre environnement Oracle spécifique et des besoins de votre application.   
+   </ol>
+   <div class="figure">
+    <p><img alt="Capture d'écran avec les fontes ajoutées" src="https://drive.google.com/uc?export=view&id=18WEtmofZT-T7It9yrGdQNKHmbQH30D3J">
+
+    </p><p>Capture affichant le code source de la désactivation d'un compte Oracle sous Delphi.
+   </p></div>
+  </div>
+
+  <div class="section" id="supprimercompte">
+   <h2>4: Supprimer un compte</h2>
+
+   <p>
+   Pour supprimer un compte Oracle à l'aide d'AdoCommand de Delphi, vous pouvez suivre ces étapes :
+</p>
+<ol>1. Assurez-vous d'avoir déjà créé une connexion à la base de données Oracle en utilisant un composant ADOConnection. Si vous n'avez pas encore créé la connexion, veuillez vous référer à la section précédente sur la création d'un compte Oracle avec AdoCommand de Delphi.
+   </ol>
+<ol>2. Ajoutez un composant ADOCommand à votre formulaire Delphi (par exemple, TADOCommand). Associez ce composant à la connexion ADO créée précédemment en définissant sa propriété Connection sur le composant TADOConnection.
+   </ol>
+<ol>3. Écrivez la requête SQL pour supprimer le compte Oracle. La requête peut varier en fonction de la version d'Oracle que vous utilisez. Voici un exemple de requête pour supprimer un compte Oracle :      
+   </ol>
+    
+   <button style='background-color:#DDDDBB' class="flex ml-auto gap-2"  onclick="copyPreContent('myPreTag4')">
+<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" 
+class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
+</path>
+
+<rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button>
+
+   <pre id="myPreTag4">procedure TForm14.SpeedButton2Click(Sender: TObject);
+begin
+ADOCommand1.CommandText:='';
+if (edit1.Text='') then
+showmessage('champ vide non autorisé')
+else
+begin
+if MessageDlg('Voulez-vous vraiment supprimer l''utilisateur : '+edit1.Text+' ?',mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+begin
+<strong>ADOCommand1.CommandText:='DROP USER '+edit1.Text+' CASCADE';</strong>
+ADOCommand1.Execute();
+showMessage('L''utilisateur '+edit1.Text+' a été supprimé');
+SpeedButton5Click(Sender);
+edit1.Text:='';
+end;
+end;
+end;</pre>
+
+   <ol>- Il est important de noter que la suppression d'un compte Oracle peut nécessiter des privilèges spécifiques. Assurez-vous d'avoir les droits appropriés pour exécuter la commande DROP USER et supprimer le compte Oracle dans la base de données.
+   </ol>
+<ol>- En suivant ces étapes, vous pourrez supprimer un compte Oracle à l'aide d'AdoCommand de Delphi. Veillez à adapter ces instructions en fonction de votre environnement Oracle spécifique et des besoins de votre application.
+   </ol>
+   
+   <div class="figure">
+    <p><img alt="Capture d'écran avec le menu à gauche" src="https://drive.google.com/uc?export=view&id=1mvYhi4ezxtkUhuTMmnotvl-XT7Hf-sum">
+
+    </p><p>Capture affichant le code source de la suppression d'un compte Oracle sous Delphi.
+   </p></div>
+
+  
+  </div>
+
+  <div class="section" id="changerpwd">
+   <h2>5: Changer le mot de passe</h2>
+
+   <p>Pour changer le mot de passe d'un compte Oracle à l'aide d'AdoCommand de Delphi, vous pouvez suivre ces étapes :
+
+</p>
+   <ol>1. Assurez-vous d'avoir déjà créé une connexion à la base de données Oracle en utilisant un composant ADOConnection. Si vous n'avez pas encore créé la connexion, veuillez vous référer à la section précédente sur la création d'un compte Oracle avec AdoCommand de Delphi.
+   </ol>
+<ol>2. Ajoutez un composant ADOCommand à votre formulaire Delphi (par exemple, TADOCommand). Associez ce composant à la connexion ADO créée précédemment en définissant sa propriété Connection sur le composant TADOConnection.
+   </ol>
+<ol>3. Écrivez la requête SQL pour changer le mot de passe du compte Oracle. La requête peut varier en fonction de la version d'Oracle que vous utilisez. Voici un exemple de requête pour changer le mot de passe d'un compte Oracle :
+   </ol>
+   
+   <button style='background-color:#DDDDBB' class="flex ml-auto gap-2"  onclick="copyPreContent('myPreTag5')">
+<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" 
+class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
+</path>
+
+<rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button>
+ 
+
+   </p><pre id="myPreTag5">procedure TForm14.SpeedButton6Click(Sender: TObject);
+begin
+ADOCommand1.CommandText:='';
+if (edit1.Text='') OR (edit2.Text='')  then
+showmessage('Champ vide non autorisé')
+else
+if edit2.Text<>edit3.Text then
+Showmessage('Les mots de passes ne sont pas identiques !... Merci de vérifier')
+else
+Begin
+<strong>ADOCommand1.commandtext:='ALTER USER '+edit1.text+' IDENTIFIED BY '+edit2.text;</strong>
+ADOCommand1.Execute();
+showMessage('Mot de passe changé avec succès');
+SpeedButton5Click(Sender);
+end;
+end;</pre>
+
+<ol>- Il est important de noter que le changement de mot de passe d'un compte Oracle peut nécessiter des privilèges spécifiques. Assurez-vous d'avoir les droits appropriés pour exécuter la commande ALTER USER et changer le mot de passe du compte Oracle dans la base de données.
+   </ol>
+<ol>- En suivant ces étapes, vous pourrez changer le mot de passe d'un compte Oracle à l'aide d'AdoCommand de Delphi. Veillez à adapter ces instructions en fonction de votre environnement Oracle spécifique et des besoins de votre application.
+   </ol>
+<div class="figure">
+    <p><img alt="Capture d'écran avec le menu à gauche" src="https://drive.google.com/uc?export=view&id=17dAAYPKnk7YZ-k_idW8dzznc4zUDF0dx">
+
+    </p><p>Capture affichant le code source duchangement de mot de passe d'un compte Oracle sous Delphi.
+   </p></div>
+  </div>
+
+  <div class="section" id="affichercomptes">
+   <h2>6: Afficher les comptes</h2>
+
+   <p>
+   Pour afficher les comptes Oracle avec Delphi, vous pouvez utiliser des composants de base de données tels que TADOQuery ou TADODataSet pour exécuter une requête SQL et récupérer les informations des comptes Oracle. Voici une description des étapes générales :
+
+<ol>1. Créer une connexion à la base de données Oracle : Ajoutez un composant de connexion ADO à votre formulaire Delphi, par exemple, TADOConnection. Configurez les paramètres de connexion tels que le nom d'utilisateur, le mot de passe, l'hôte et le port Oracle pour vous connecter à la base de données Oracle.
+   </ol>
+<ol>2. Créer un composant de requête : Ajoutez un composant de requête ADO à votre formulaire Delphi, par exemple, TADOQuery ou TADODataSet. Associez ce composant à la connexion ADO créée précédemment en définissant sa propriété Connection sur le composant TADOConnection.
+   </ol>
+<ol>3. Écrire une requête SQL pour sélectionner les informations des comptes Oracle : Utilisez la propriété SQL de votre composant de requête ADO pour écrire une requête SQL qui sélectionne les informations des comptes Oracle.     
+</ol>  
+<ol>4. Exécuter la requête et récupérer les résultats : Appelez la méthode Open ou Active du composant de requête ADO pour exécuter la requête SQL et récupérer les résultats dans un ensemble de données. Vous pouvez utiliser des boucles pour parcourir les enregistrements et afficher les informations des comptes Oracle dans votre application Delphi. Par exemple : 
+</ol>
+</p>
+   
+   <button style='background-color:#DDDDBB' class="flex ml-auto gap-2"  onclick="copyPreContent('myPreTag6')">
+<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" 
+class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2">
+</path>
+
+<rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy code</button>
+
+   </p><pre id="myPreTag6">procedure TForm14.SpeedButton5Click(Sender: TObject);
+begin
+with ADOQListeUsers do
+begin
+    close;
+    with sql do
+    begin
+        clear;
+      <strong>add('SELECT USERNAME,ACCOUNT_STATUS,LOCK_DATE,EXPIRY_DATE,DEFAULT_TABLESPACE,TEMPORARY_TABLESPACE,CREATED,PROFILE');
+      add('FROM DBA_USERS'); 
+      add('ORDER BY CREATED DESC');</strong>
+        execsql;
+    end;
+    active:=true;
+end;
+end;</pre>
+
+<ol>- Assurez-vous d'adapter la requête SQL en fonction de votre schéma de base de données Oracle et des informations que vous souhaitez afficher. Vous pouvez également personnaliser l'affichage des informations des comptes Oracle en utilisant des contrôles ou des composants Delphi appropriés, tels que des listes, des tableaux ou des grilles.
+</ol>
+<ol>- En suivant ces étapes, vous pourrez afficher les comptes Oracle dans votre application Delphi en utilisant des composants ADO pour exécuter des requêtes SQL et récupérer les résultats.
+</ol>
+</div>
+<div class="figure">
+    <p ><img alt="Capture d'écran avec le menu à gauche" src="https://drive.google.com/uc?export=view&id=1PagefMtI55S6ETppl2DvHLk_a8CUsrR5">
+
+    </p><p>Capture affichant le code source des comptes oracle sous Delphi.
+   </p></div>
+  </div>
+  
+  <div class="section" id="creerrole">
+   <h2>7: Créer un rôle</h2>
+
+   <p>Cette partie,est en cours de construction .
+
+</p>
+</div>
+<div class="section" id="supprimerrole">
+   <h2>8: Supprimer un rôle</h2>
+
+   <p>Cette partie,est en cours de construction .
+
+</p>
+</div>
+
+
+
+  <div class="section" id="savoir">
+   <h2>En savoir plus</h2>
+
+   <p>Prochainement,Vous trouverez d'autres
+    tutoriels sur autres options d'administration d'une base de données Oracle sous Delphi.
+  </p></div>
+
+  
+
+  <div class="endmatter">
+  <div class="banner">
+    <p> <u>Document crée par : Charef Zitouni</u><a class="home"><img src="http://drive.google.com/uc?export=view&id=1R2W-aH3DVzqYuRc_rzjbjhW-f8LJCKgo"></p>GESTION DES COMPTES UTILISATEURS ORACLE<br> SOUS DELPHI</div>
+
+   <p class="button"><img alt="CSS" src="https://drive.google.com/uc?export=view&id=1BqqjJhSDX1URiJkCf6RLZN4U6Qzm4oEQ">  <br>
+    Dernière modification <!--@@@-->Dim. 16 juillet 202023 <!--/@@@-->
+
+   </p><address class="vcard h-card"><img alt="" class="photo u-photo" src="https://drive.google.com/uc?export=view&id=1OdprvJ4pGDv_oX89plcwLSVaJ18lkbLW"> INR 
+    TECHNOLOGY</a>, <span class="role p-role">ALGERIA
+   </span><br>
+    <small>Copyright</a> © <!--@@@-->2023<!--/@@@--></small> </address>
+    
+
+  </div>
+</body></html>
